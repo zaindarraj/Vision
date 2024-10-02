@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option java_package = "com.example.vision";
+option java_multiple_files = true;
+enum TokenType {
+  Unknown = 0; AccessToken = 1; RefreshToken = 2;
+}
+message Token {
+  string token = 1;
+  TokenType tokenType  = 2;
+}
+
