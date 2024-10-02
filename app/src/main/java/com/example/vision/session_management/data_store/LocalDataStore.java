@@ -19,22 +19,23 @@ import io.reactivex.rxjava3.functions.Action;
 public class LocalDataStore {
     RxDataStore<Token> dataStore;
     Serializer<Token> serializer = new TokenSerializer();
-    public final Flowable<Token> accessTokenFlowable;
+    public final Single<Token> accessTokenFlowable;
     public LocalDataStore(Context context){
         dataStore =
                 new RxDataStoreBuilder<>(context, /* fileName= */ "token.pb", serializer).build();
-//        dataStore.updateDataAsync(token -> {
-//            String updatedToken = "Updated Token"; // Example modification
-//            TokenType tokenType = TokenType.RefreshToken;
-//            return Single.just(Token.newBuilder(token).setToken(updatedToken).setTokenType(tokenType).build());
-//        });
-//        dataStore.updateDataAsync(token -> {
-//            String updatedToken = "Updated Token"; // Example modification
-//            TokenType tokenType = TokenType.AccessToken;
-//            return Single.just(Token.newBuilder(token).setToken(updatedToken).setTokenType(tokenType).build());
-//        });
+        dataStore.updateDataAsync(token -> {
+            String updatedToken = "Updated Token"; // Example modification
+            TokenType tokenType = TokenType.RefreshToken;
+            return Single.just(Token.newBuilder(token).setToken(updatedToken).setTokenType(tokenType).build());
+        });
+        dataStore.updateDataAsync(token -> {
+            String updatedToken = "Updated Token"; // Example modification
+            TokenType tokenType = TokenType.AccessToken;
+            return Single.just(Token.newBuilder(token).setToken(updatedToken).setTokenType(tokenType).build());
+        });
+
         accessTokenFlowable =
-                dataStore.data().map(token -> token.getTokenType() == TokenType.AccessToken ? token : null).doOnError(error->{
+                dataStore.data().map(token -> token.getTokenType() == TokenType.AccessToken ? token : null).firstOrError().doOnError(error->{
                     Log.println(Log.ASSERT , "mannnnnnnn" , error.getMessage());
                 });
     }

@@ -18,7 +18,7 @@ public class LocalRepository {
 
         localDataStore = new LocalDataStore(context);
     }
-    public Flowable<Token> getAccessToken() {
+    public Single<Token> getAccessToken() {
         return localDataStore.accessTokenFlowable;
     }
 
