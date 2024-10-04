@@ -40,13 +40,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         drawerLayout = view.findViewById(R.id.drawerLayout);
         openDrawer = view.findViewById(R.id.settings_button);
-        openDrawer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawerLayout.open();
-
-            }
-        });
+        openDrawer.setOnClickListener(v -> drawerLayout.open());
 
 
 

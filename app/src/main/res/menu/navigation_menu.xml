@@ -2,24 +2,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="HardcodedText">
+
     <item
         android:icon="@drawable/baseline_home_24"
-        android:id="@+id/nav_account"
-        android:title="My Account" />
-    <item
         android:id="@+id/nav_home"
-        android:title="Home">
+        android:title="Home"/>
 
-    </item>
+    <item
+        android:icon="@drawable/baseline_person_24"
+        android:id="@+id/nav_account"
+        android:title="Account"/>
 
 
     <item
-        android:id="@+id/nav_settings"
-        android:title="Settings" />
-    <item
+        android:icon="@drawable/baseline_add_alert_24"
         android:id="@+id/nav_alerts"
         android:title="Alerts" />
     <item
+        android:icon="@drawable/baseline_switch_access_shortcut_24"
+        android:id="@+id/nav_language"
+        android:title="Change Language" />
+    <item
+        android:icon="@drawable/baseline_logout_24"
         android:id="@+id/nav_logout"
         android:title="Logout" />
 

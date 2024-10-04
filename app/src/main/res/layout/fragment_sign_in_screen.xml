@@ -105,7 +105,7 @@
          android:layout_width="0dp"
          android:layout_margin="10dp"
          app:startIconDrawable="@drawable/baseline_contacts_24"
-         android:hint="User Name"
+         android:hint="@string/user_name"
          app:layout_constraintTop_toBottomOf="@id/text"
          app:layout_constraintStart_toEndOf="@id/startForumVertical"
          app:layout_constraintEnd_toStartOf="@id/endForumVertical"
@@ -113,6 +113,7 @@
 
 
          <com.google.android.material.textfield.TextInputEditText
+             android:id="@+id/userName"
              android:layout_width="match_parent"
              android:maxLines="1"
              android:inputType="textPersonName"
@@ -132,6 +133,7 @@
 
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:inputType="textPassword"
                 android:layout_height="match_parent"/>

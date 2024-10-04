@@ -18,18 +18,19 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class SignInViewModel extends ViewModel {
     SessionController sessionController = new SessionController();
     CompositeDisposable compositeDisposable = new CompositeDisposable();
+    public SignInState signInState = SignInState.init;
 
     SignInViewModel() {
         compositeDisposable.add(sessionController.getSessionStateObservable().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(result -> {
             if (result == SessionState.Session_Ready) {
-                signInStateLiveData.postValue(SignInState.success);
+                signInStateLiveData.postValue(SignInState.Signed_in);
             } else if (result == SessionState.Session_Empty) {
                 signInStateLiveData.postValue(SignInState.no_internet);
             }
         }));
     }
 
-    private final MutableLiveData<SignInState> signInStateLiveData = new MutableLiveData<>(SignInState.no_internet);
+    private final MutableLiveData<SignInState> signInStateLiveData = new MutableLiveData<>(SignInState.init);
 
     private String email;
     private String password;

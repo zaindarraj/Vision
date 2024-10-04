@@ -7,4 +7,5 @@
     <string name="welcome_to_n_nvision_application">اهلا بك في \n \n  تطبيق رؤية</string>
     <string name="please_enter_your_user_name">الرجاء ادخال المعلومات</string>
     <string name="remember_me">تذكرني </string>
+    <string name="user_name">User Name</string>
 </resources>
