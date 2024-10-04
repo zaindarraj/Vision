@@ -4,6 +4,10 @@ import android.util.Log;
 
 import com.example.vision.Token;
 import com.example.vision.session_management.Session;
+import com.example.vision.session_management.models.SignInDataModel;
+import com.example.vision.session_management.models.SigninResponse;
+import com.example.vision.session_management.models.TokenModel;
+import com.example.vision.session_management.repo.remote.RemoteRepository;
 
 
 import java.util.Optional;
@@ -24,11 +28,14 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 import
         io.reactivex.rxjava3.core.Observable
 ;
+import retrofit2.adapter.rxjava3.Result;
+
 public class Repository {
 
     private final LocalRepository localRepository;
     private final CompositeDisposable disposables = new CompositeDisposable();
     private final Session session = Session.getSessionManagement();
+    private final RemoteRepository remoteRepository = new RemoteRepository();
 
     public Repository(LocalRepository localRepository) {
         this.localRepository = localRepository;
@@ -39,6 +46,14 @@ public class Repository {
         return Optional.ofNullable(session.accessToken);
     }
 
+    public Single<Boolean> setLocals(SigninResponse tokenModel){
+       return localRepository.setTokens(tokenModel);
+    }
+
+
+    public void signIn(String email, String password , Consumer<Result<SigninResponse>> onSuccess, Consumer<Throwable> onError){
+        disposables.add(remoteRepository.signIn(email,password).subscribe(onSuccess,onError));
+    }
 
     //Called when the app starts
     public void fetchAccessToken(Consumer<Token> onSuccess, Consumer<Throwable> onError) {

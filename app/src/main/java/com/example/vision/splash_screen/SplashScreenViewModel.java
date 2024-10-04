@@ -1,6 +1,7 @@
 package com.example.vision.splash_screen;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -24,9 +25,14 @@ public class SplashScreenViewModel extends ViewModel {
 
 
     SplashScreenViewModel(LocalRepository localRepository){
-            sessionController = new SessionController(localRepository);
-            Disposable disposable  = sessionController.getSessionStateObservable().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(sessionStateMutableLiveData::postValue);
+            sessionController = new SessionController();
+            Disposable disposable  = sessionController.getSessionStateObservable().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(result->{
+
+                Log.println(Log.ASSERT, "In Splash Screen ViewModel ", result.name());
+                sessionStateMutableLiveData.postValue(result);
+            });
             disposables.add(disposable);
+            checkSessionState();
         }
 
 

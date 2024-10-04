@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.datastore.core.Serializer;
 import androidx.datastore.*;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import com.example.vision.Token;
@@ -33,6 +34,11 @@ public class TokenSerializer implements Serializer<Token> {
     @Nullable
     @Override
     public Object writeTo(Token token, @NonNull OutputStream outputStream, @NonNull Continuation<? super Unit> continuation) {
-        return null;
+        try {
+            token.writeTo(outputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return token;
     }
 }

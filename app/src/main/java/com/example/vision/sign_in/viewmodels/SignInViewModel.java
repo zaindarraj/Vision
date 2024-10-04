@@ -4,10 +4,30 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.vision.session_management.SessionController;
+import com.example.vision.session_management.data_store.LocalDataStore;
+import com.example.vision.session_management.data_store.RemoteDataSource;
 import com.example.vision.state.state.PasswordFieldState;
+import com.example.vision.state.state.SessionState;
 import com.example.vision.state.state.SignInState;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 public class SignInViewModel extends ViewModel {
+    SessionController sessionController = new SessionController();
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+    SignInViewModel() {
+        compositeDisposable.add(sessionController.getSessionStateObservable().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(result -> {
+            if (result == SessionState.Session_Ready) {
+                signInStateLiveData.postValue(SignInState.success);
+            } else if (result == SessionState.Session_Empty) {
+                signInStateLiveData.postValue(SignInState.no_internet);
+            }
+        }));
+    }
 
     private final MutableLiveData<SignInState> signInStateLiveData = new MutableLiveData<>(SignInState.no_internet);
 
@@ -32,5 +52,17 @@ public class SignInViewModel extends ViewModel {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+
+    public void signIn(String email, String password) {
+        sessionController.sign(email, password);
+    }
+
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        compositeDisposable.dispose();
     }
 }

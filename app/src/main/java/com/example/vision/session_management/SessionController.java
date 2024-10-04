@@ -12,21 +12,55 @@ import com.example.vision.state.state.SessionState;
 
 import java.util.Optional;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import io.reactivex.rxjava3.subjects.BehaviorSubject;
 
 public class SessionController {
     private final Repository repository;
     private final BehaviorSubject<SessionState> sessionStateObservable= BehaviorSubject.create();
-
+CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     Consumer<Token> accessTokenConsumer = token -> {
 
         sessionStateObservable.onNext(SessionState.Session_Ready);
     };
 
-    public SessionController(LocalRepository localRepository){
-            repository = new Repository(localRepository);
+
+    public void sign(String email, String password){
+        repository.signIn(email,password, result -> {
+            //TODO: handle response
+            if(result.error() != null){
+//                result.response().errorBody();
+                Log.println(Log.ASSERT, "While Signing In Error was",  result.error().toString());
+                sessionStateObservable.onNext(SessionState.Session_Empty);
+            }else{
+                if(result.response().body()!= null){
+                 compositeDisposable.add(  repository.setLocals(result.response().body()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
+                         writtenBool->{
+                             if(writtenBool){
+                                 sessionStateObservable.onNext(SessionState.Session_Ready);
+                             }else {
+                                 sessionStateObservable.onNext(SessionState.Session_Empty);
+                             }
+                         },
+                         erroBool->{
+                             sessionStateObservable.onNext(SessionState.Session_Empty);
+
+                         }
+                 )) ;
+
+                }else{
+                    sessionStateObservable.onNext(SessionState.Session_Empty);
+                }
+            }
+
+        }, error->{});
+    }
+    public SessionController( ){
+            repository = new Repository(new LocalRepository());
     }
 
 
@@ -57,6 +91,7 @@ public class SessionController {
 
     void signOut(){
         repository.dispose();
+        compositeDisposable.dispose();
         sessionStateObservable.onNext(SessionState.Session_Empty);
     }
 }
