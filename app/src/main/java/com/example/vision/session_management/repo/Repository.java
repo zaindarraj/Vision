@@ -76,10 +76,16 @@ public class Repository {
             disposables.add(disposable);
         }else{
             Disposable disposable = localRepository.getAccessToken().map(token -> {
-                Log.println(Log.ASSERT,"accessTokenConsfumer", token.getAccessToken().getToken());
-                       this.session.accessToken = Token.newBuilder().setToken(token.getAccessToken().getToken()).setTokenType(TokenType.AccessToken).build();
-                        this.session.refreshToken = Token.newBuilder().setToken(token.getRefreshToken().getToken()).setTokenType(TokenType.RefreshToken).build();
-                        return session.accessToken;
+                        if(!token.getAccessToken().getToken().isEmpty()){
+                            this.session.accessToken = Token.newBuilder().setToken(token.getAccessToken().getToken()).setTokenType(TokenType.AccessToken).build();
+                            return session.accessToken;
+
+                        }
+                        if(token.getRefreshToken().getToken().isEmpty()){
+                            this.session.refreshToken = Token.newBuilder().setToken(token.getRefreshToken().getToken()).setTokenType(TokenType.RefreshToken).build();
+
+                        }
+                        return  null;
                     })
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())

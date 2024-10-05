@@ -32,8 +32,6 @@ public class Repository {
             if(result.response().errorBody() != null){
                 Gson gson = new Gson();
                 Errors errors = gson.fromJson(result.response().errorBody().string(), Errors.class);
-                Log.println(Log.ASSERT, "Errorsddsss", errors.errors.get(0).message);
-                Log.println(Log.ASSERT, "Errorsddsss", Session.getSessionManagement().refreshToken.getToken());
 
 
             }else{

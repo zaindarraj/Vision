@@ -118,7 +118,7 @@ public class SignInScreen extends Fragment {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(userName.getText() == null || password.getText() == null){
+                if(userName.getText().toString().isEmpty() || password.getText().toString().isEmpty()){
                     Toast.makeText(getActivity(), "Please fill all fields", Toast.LENGTH_SHORT).show();
                 }else{
                     signInViewModel.signIn(userName.getText().toString(), password.getText().toString());

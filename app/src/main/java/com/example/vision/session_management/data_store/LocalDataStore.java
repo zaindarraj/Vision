@@ -1,47 +1,27 @@
 package com.example.vision.session_management.data_store;
 
-import android.content.Context;
 import android.util.Log;
-
-import androidx.datastore.core.Serializer;
-import androidx.datastore.rxjava3.RxDataStore;
-import androidx.datastore.rxjava3.RxDataStoreBuilder;
-import androidx.navigation.FloatingWindow;
 
 import com.example.vision.Token;
 import com.example.vision.TokenType;
 import com.example.vision.session_management.models.SigninResponse;
-import com.example.vision.session_management.models.TokenModel;
-import com.example.vision.session_management.models.TokenSerializer;
 
-import io.reactivex.rxjava3.core.Flowable;
-import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Single;
-import io.reactivex.rxjava3.functions.Action;
 
 public class LocalDataStore {
 
 
 
 
-  public Flowable<SigninResponse>  getTokens(){
-       Flowable<Token> accessTokenFlowable =   LocalDataStoreProvider.getAccessTokenDataStore().data().map(
-                token->{
-                    return token.getTokenType() == TokenType.AccessToken ? token : null;}
-        );
-      Flowable<Token> refreshTokenFlowable =   LocalDataStoreProvider.getRefreshTokenDataStore().data().map(
-              token->{
-                  return token.getTokenType() == TokenType.RefreshToken ? token : null;}
-      );
+  public Single<SigninResponse>  getTokens(){
+       Single<Token> accessTokenFlowable =   LocalDataStoreProvider.getAccessTokenDataStore().data().map(
+                token-> token.getTokenType() == TokenType.AccessToken ? token : null
+        ).firstOrError().onErrorReturn(error-> Token.newBuilder().setTokenType(TokenType.Unknown).build());
+      Single<Token> refreshTokenFlowable =   LocalDataStoreProvider.getRefreshTokenDataStore().data().map(
+              token-> token.getTokenType() == TokenType.RefreshToken ? token : null
+      ).firstOrError().onErrorReturn(error-> Token.newBuilder().setTokenType(TokenType.Unknown).build());
 
-     return Flowable.zip(accessTokenFlowable,refreshTokenFlowable, (access, refresh)->{
-         Log.println(Log.ASSERT,"While reading tokens" , String.valueOf(access.getToken()));
-         Log.println(Log.ASSERT,"While reading tokens" , String.valueOf(refresh.getToken()));
-         SigninResponse signinResponse = new SigninResponse(access,refresh);
-
-
-         return  signinResponse;
-     });
+     return Single.zip(accessTokenFlowable,refreshTokenFlowable, SigninResponse::new);
     }
 
     public Single<Boolean> setTokens(SigninResponse tokenModel) {
