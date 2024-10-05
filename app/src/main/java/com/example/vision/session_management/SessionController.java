@@ -31,9 +31,7 @@ CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public void sign(String email, String password){
         repository.signIn(email,password, result -> {
-            //TODO: handle response
             if(result.error() != null){
-//                result.response().errorBody();
                 Log.println(Log.ASSERT, "While Signing In Error was",  result.error().toString());
                 sessionStateObservable.onNext(SessionState.Session_Empty);
             }else{
@@ -66,9 +64,13 @@ CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public void checkSessionState() {
         repository.fetchAccessToken(accessTokenConsumer, throwable -> {
-            Log.println(Log.ASSERT, "accessTokenConsumer", "Token is not available");
+            Log.println(Log.ASSERT, "accessTokenConsumer", throwable.toString());
             sessionStateObservable.onNext(SessionState.Session_Empty);
     });
+    }
+
+    public String getRefreshToken(){
+        return repository.getRefreshToken();
     }
 
 

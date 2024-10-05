@@ -6,6 +6,12 @@ public class SigninResponse {
     TokenModel accessToken;
     TokenModel refreshToken;
 
+    public SigninResponse(Token accessToken, Token refreshToken) {
+        this.accessToken = new TokenModel(accessToken.getToken());
+
+        this.refreshToken = new TokenModel(refreshToken.getToken());
+    }
+
 
     public TokenModel getAccessToken() {
         return accessToken;

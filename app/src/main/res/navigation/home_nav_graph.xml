@@ -9,11 +9,11 @@
         android:name="com.example.vision.home.HomeLayout"
         android:label="HomeLayout" >
         <action
-            android:id="@+id/action_homeLayout_to_welcomeFragment"
-            app:destination="@id/welcomeFragment" />
+            android:id="@+id/action_homeLayout_to_profileLayout"
+            app:destination="@id/profileLayout" />
     </fragment>
     <fragment
-        android:id="@+id/welcomeFragment"
-        android:name="com.example.vision.welcome_screen.WelcomeFragment"
-        android:label="WelcomeFragment" />
+        android:id="@+id/profileLayout"
+        android:name="com.example.vision.profile.ProfileLayout"
+        android:label="HomeLayout" />
 </navigation>

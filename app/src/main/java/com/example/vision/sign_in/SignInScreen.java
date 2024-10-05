@@ -24,11 +24,9 @@ import com.example.vision.R;
 import com.example.vision.session_management.repo.LocalRepository;
 import com.example.vision.sign_in.viewmodels.SignInViewModel;
 import com.example.vision.sign_in.viewmodels.SignInViewModelFactory;
-import com.example.vision.splash_screen.SplashScreenViewModel;
-import com.example.vision.splash_screen.SplashScreenViewModelFactory;
-import com.example.vision.state.state.SessionState;
 import com.example.vision.state.state.SignInState;
 import com.example.vision.welcome_screen.WelcomeViewModel;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Objects;
 
@@ -41,23 +39,29 @@ public class SignInScreen extends Fragment {
         return this;
     }
 
+    TextInputEditText userName;
+    TextInputEditText password;
+
     Button signInButton;
 
     SignInViewModel signInViewModel;
-    Observer<SignInState> sessionStateObserver = sessionState -> {
-            switch (sessionState){
+    Observer<SignInState> sessionStateObserver = signInState -> {
+        if(signInState != signInViewModel.signInState){
+            switch (signInState){
                 case Signed_in:
-//                    NavHostFragment.findNavController(getThisFragment()).navigate(R.id.action_signInScreen_to_homeFragment);
+                    NavHostFragment.findNavController(getThisFragment()).navigate(R.id.action_signInScreen_to_homeFragment);
                     break;
                 case no_internet:
                     Toast.makeText(getActivity(), "Internal Problem, Check Your Connection", Toast.LENGTH_SHORT).show();
-                   break;
+                    break;
                 case Wrong_creds:
                     Toast.makeText(getActivity(), "Wrong User Name or Password", Toast.LENGTH_SHORT).show();
-                   break;
+                    break;
 
 
             }
+        }
+
     };
 
     private WelcomeViewModel mViewModel;
@@ -107,11 +111,18 @@ public class SignInScreen extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        userName = view.findViewById(R.id.userName);
+        password = view.findViewById(R.id.password);
+
         signInButton = view.findViewById(R.id.signInButton);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               signInViewModel.signIn("dddzainzain@gmail.com", "123456789.");
+                if(userName.getText() == null || password.getText() == null){
+                    Toast.makeText(getActivity(), "Please fill all fields", Toast.LENGTH_SHORT).show();
+                }else{
+                    signInViewModel.signIn(userName.getText().toString(), password.getText().toString());
+                }
             }
         });
         spinner = view.findViewById(R.id.language_spinner);

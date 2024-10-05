@@ -93,7 +93,6 @@
 
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/navigation"
-            app:headerLayout="@layout/header_navigation_drawer"
 
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

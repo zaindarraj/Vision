@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option java_package = "com.example.vision";
+option java_multiple_files = true;
+
+message Profile {
+  string fullName = 1;
+  string email = 2;
+}

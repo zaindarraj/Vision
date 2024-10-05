@@ -16,8 +16,8 @@ import io.reactivex.rxjava3.core.Single;
 
 public class LocalRepository {
 
-    public Flowable<Token> getAccessToken() {
-        return localDataStore.getAccessToken();
+    public Flowable<SigninResponse> getAccessToken() {
+        return localDataStore.getTokens();
     }
 
 

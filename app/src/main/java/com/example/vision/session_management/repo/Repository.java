@@ -3,6 +3,7 @@ package com.example.vision.session_management.repo;
 import android.util.Log;
 
 import com.example.vision.Token;
+import com.example.vision.TokenType;
 import com.example.vision.session_management.Session;
 import com.example.vision.session_management.models.SignInDataModel;
 import com.example.vision.session_management.models.SigninResponse;
@@ -50,9 +51,19 @@ public class Repository {
        return localRepository.setTokens(tokenModel);
     }
 
+    void setSessionTokens(SigninResponse tokenModel){
+        session.accessToken =  Token.newBuilder().setToken(tokenModel.getAccessToken().getToken()).setTokenType(TokenType.AccessToken).build();
+        session.refreshToken = Token.newBuilder().setToken(tokenModel.getRefreshToken().getToken()).setTokenType(TokenType.RefreshToken).build();
+    }
+
 
     public void signIn(String email, String password , Consumer<Result<SigninResponse>> onSuccess, Consumer<Throwable> onError){
-        disposables.add(remoteRepository.signIn(email,password).subscribe(onSuccess,onError));
+        disposables.add(remoteRepository.signIn(email,password).doOnSuccess(signinResponseResult ->
+        {
+            if(signinResponseResult.response() != null && signinResponseResult.response().body() != null){
+                setSessionTokens(signinResponseResult.response().body());
+            }
+        }).subscribe(onSuccess,onError));
     }
 
     //Called when the app starts
@@ -61,12 +72,15 @@ public class Repository {
 
             Single<Token> single = Single.just(session.accessToken);
             Disposable disposable = single.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread()).doOnSuccess(token -> {
-                        session.accessToken = token;
-                    }).subscribe(onSuccess, onError);
+                    .observeOn(AndroidSchedulers.mainThread()).subscribe(onSuccess, onError);
             disposables.add(disposable);
         }else{
-            Disposable disposable = localRepository.getAccessToken()
+            Disposable disposable = localRepository.getAccessToken().map(token -> {
+                Log.println(Log.ASSERT,"accessTokenConsfumer", token.getAccessToken().getToken());
+                       this.session.accessToken = Token.newBuilder().setToken(token.getAccessToken().getToken()).setTokenType(TokenType.AccessToken).build();
+                        this.session.refreshToken = Token.newBuilder().setToken(token.getRefreshToken().getToken()).setTokenType(TokenType.RefreshToken).build();
+                        return session.accessToken;
+                    })
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
@@ -77,6 +91,12 @@ public class Repository {
         }
 
     }
+
+
+    public String getRefreshToken(){
+        return session.refreshToken.getToken();
+    }
+
 
     public void dispose() {
         session.signOut();

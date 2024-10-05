@@ -1,9 +1,5 @@
 package com.example.vision.home;
 
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-
-import androidx.annotation.Dimension;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -13,24 +9,48 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.example.vision.R;
+import com.example.vision.databinding.UserProfileHeaderBinding;
+import com.example.vision.profile.ProfileLayout;
+import com.example.vision.profile.ProfileLayoutViewModel;
+import com.google.android.material.navigation.NavigationView;
 
 public class HomeFragment extends Fragment {
 
 
     DrawerLayout drawerLayout;
+
+    TextView label;
+
+    ProfileLayoutViewModel profileLayoutViewModel;
+
     ImageButton openDrawer;
 
+    NavigationView navigationView;
 
+    UserProfileHeaderBinding userProfileHeaderBinding;
+
+
+    Fragment getThis(){
+        return  this;
+    }
+
+    UserProfileHeaderBinding binding;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        profileLayoutViewModel = new ViewModelProvider(getActivity()).get(ProfileLayoutViewModel.class);
+        binding = UserProfileHeaderBinding.inflate(inflater, container, false);
+        binding.setLifecycleOwner(getActivity());
+
+        binding.setViewmodel(profileLayoutViewModel);
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
@@ -38,12 +58,42 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        profileLayoutViewModel.getProfile();
+        label= view.findViewById(R.id.home_label);
         drawerLayout = view.findViewById(R.id.drawerLayout);
+        navigationView= view.findViewById(R.id.navigation);
+        View headerView = binding.getRoot();
+        navigationView.addHeaderView(headerView);
+        navigationView.getMenu().findItem(R.id.nav_account).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem item) {
+                getChildFragmentManager().beginTransaction()
+                        .replace(R.id.home_container, new ProfileLayout())
+                        .addToBackStack(null)
+                        .commit();
+                label.setText("Profile");
+                drawerLayout.close();
+
+                return true;
+            }
+        });
+
+
+        navigationView.getMenu().findItem(R.id.nav_home).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem item) {
+                getChildFragmentManager().beginTransaction()
+                        .replace(R.id.home_container, new HomeLayout())
+                        .addToBackStack(null)
+                        .commit();
+                label.setText("Home");
+                drawerLayout.close();
+
+                return true;
+            }
+        });
+
         openDrawer = view.findViewById(R.id.settings_button);
         openDrawer.setOnClickListener(v -> drawerLayout.open());
-
-
-
-
     }
 }

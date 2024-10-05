@@ -8,4 +8,5 @@
     <string name="please_enter_your_user_name">الرجاء ادخال المعلومات</string>
     <string name="remember_me">تذكرني </string>
     <string name="user_name">User Name</string>
+    <string name="submit">Submit</string>
 </resources>
