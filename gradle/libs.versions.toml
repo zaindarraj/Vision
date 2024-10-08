@@ -1,9 +1,8 @@
 [versions]
-agp = "8.5.0"
-converterGson = "3.1.8"
+agp = "8.5.2"
 converterGsonVersion = "2.11.0"
 datastore = "1.1.1"
-datastoreVersion = "1.0.0"
+datastoreVersion = "1.1.1"
 gson = "2.10.1"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
@@ -15,20 +14,23 @@ material = "1.12.0"
 activity = "1.9.2"
 constraintlayout = "2.1.4"
 datastoreCoreAndroid = "1.1.1"
-navigationFragment = "2.8.1"
+navigationFragment = "2.8.2"
 protobufJavalite = "3.18.0"
-protobuf = "4.28.2"
-retrofit = "2.11.0"
+rxandroid = "3.0.2"
 rxjava = "3.1.8"
 rxjava3RetrofitAdapter = "3.0.0"
 legacySupportV4 = "1.0.0"
 lifecycleLivedataKtx = "2.8.6"
 lifecycleViewmodelKtx = "2.8.6"
-fragmentKtx = "1.5.6"
+fragmentKtx = "1.8.4"
+cameraView = "1.3.4"
+cameraLifecycle = "1.3.4"
+firebaseCrashlyticsBuildtools = "3.0.2"
 [libraries]
 adapter-rxjava3 = { module = "com.squareup.retrofit2:adapter-rxjava3", version.ref = "converterGsonVersion" }
+androidx-camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "cameraView" }
+androidx-camera-core = { module = "androidx.camera:camera-core", version.ref = "cameraView" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 androidx-datastore-preferences-rxjava3 = { module = "androidx.datastore:datastore-preferences-rxjava3", version.ref = "datastore" }
 androidx-datastore-rxjava3 = { module = "androidx.datastore:datastore-rxjava3", version.ref = "datastore" }
@@ -48,12 +50,16 @@ androidx-activity = { group = "androidx.activity", name = "activity", version.re
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-datastore-core-android = { group = "androidx.datastore", name = "datastore-core-android", version.ref = "datastoreCoreAndroid" }
 protobuf-javalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobufJavalite" }
+rxandroid = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rxandroid" }
 rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
 rxjava3-retrofit-adapter = { module = "com.github.akarnokd:rxjava3-retrofit-adapter", version.ref = "rxjava3RetrofitAdapter" }
 androidx-legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support-v4", version.ref = "legacySupportV4" }
 androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragmentKtx" }
+androidx-camera-view = { group = "androidx.camera", name = "camera-view", version.ref = "cameraView" }
+androidx-camera-lifecycle = { group = "androidx.camera", name = "camera-lifecycle", version.ref = "cameraLifecycle" }
+firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
