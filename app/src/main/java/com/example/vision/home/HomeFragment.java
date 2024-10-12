@@ -1,6 +1,7 @@
 package com.example.vision.home;
 
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -37,6 +38,8 @@ public class HomeFragment extends Fragment {
 
     UserProfileHeaderBinding userProfileHeaderBinding;
 
+    HomeLayout homeLayout = new HomeLayout();
+
 
     Fragment getThis(){
         return  this;
@@ -67,10 +70,8 @@ public class HomeFragment extends Fragment {
         navigationView.getMenu().findItem(R.id.nav_account).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem item) {
-                getChildFragmentManager().beginTransaction()
-                        .replace(R.id.home_container, new ProfileLayout())
-                        .addToBackStack(null)
-                        .commit();
+
+                extracted(new ProfileLayout());
                 label.setText("Profile");
                 drawerLayout.close();
 
@@ -82,10 +83,11 @@ public class HomeFragment extends Fragment {
         navigationView.getMenu().findItem(R.id.nav_home).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem item) {
-                getChildFragmentManager().beginTransaction()
-                        .replace(R.id.home_container, new HomeLayout())
-                        .addToBackStack(null)
-                        .commit();
+                getChildFragmentManager().popBackStack();
+
+
+                extracted(new HomeLayout());
+
                 label.setText("Home");
                 drawerLayout.close();
 
@@ -95,5 +97,12 @@ public class HomeFragment extends Fragment {
 
         openDrawer = view.findViewById(R.id.settings_button);
         openDrawer.setOnClickListener(v -> drawerLayout.open());
+    }
+
+    public void extracted(Fragment fragment) {
+
+        getChildFragmentManager().beginTransaction()
+                .replace(R.id.home_container, fragment)
+                .commit();
     }
 }

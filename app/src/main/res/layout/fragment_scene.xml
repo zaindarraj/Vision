@@ -83,6 +83,17 @@
                 android:layout_height="match_parent"/>
 
         </LinearLayout>
+
+
+        <TextView
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline3"
+            app:layout_constraintEnd_toStartOf="@id/guideline4"
+            app:layout_constraintTop_toBottomOf="@id/guildline6"
+            android:id="@+id/alert"
+            android:layout_width="0dp"
+            android:layout_height="0dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

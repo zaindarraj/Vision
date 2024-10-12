@@ -19,14 +19,18 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vision.R;
+import com.example.vision.profile.ProfileLayoutViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.concurrent.ExecutionException;
@@ -34,6 +38,16 @@ import java.util.concurrent.Executor;
 
 
 public class Scene extends Fragment {
+    TextView alert;
+
+    SceneViewModel sceneViewModel;
+    Observer<String> alertObserver =new Observer<String>() {
+        @Override
+        public void onChanged(String s) {
+            alert.setText(s);
+
+        }
+    };
     private static final int REQUEST_CAMERA_PERMISSION = 0;
     PreviewView previewView;
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
@@ -77,6 +91,9 @@ public class Scene extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        sceneViewModel = new ViewModelProvider(getActivity()).get(SceneViewModel.class);
+        alert =  view.findViewById(R.id.alert);
+        sceneViewModel.getAlert().observe(getViewLifecycleOwner(), alertObserver);
         if (ContextCompat.checkSelfPermission(
                 getActivity(), android.Manifest.permission.CAMERA) ==
                 PackageManager.PERMISSION_GRANTED) {
@@ -124,5 +141,9 @@ public class Scene extends Fragment {
         }
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        sceneViewModel.getAlert().removeObserver(alertObserver);
+    }
 }
