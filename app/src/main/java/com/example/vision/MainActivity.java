@@ -27,6 +27,7 @@ import com.example.vision.language.LanguageController;
 import com.example.vision.language.LanguageControllerFactory;
 import com.example.vision.language.LanguageLocalDataSource;
 import com.example.vision.language.LanguageRepository;
+import com.example.vision.session_management.SessionController;
 import com.example.vision.session_management.data_store.LocalDataStoreProvider;
 import com.example.vision.session_management.repo.LocalRepository;
 import com.example.vision.sign_in.viewmodels.SignInViewModel;

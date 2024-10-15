@@ -7,6 +7,15 @@
     <string name="welcome_to_n_nvision_application">اهلا بك في \n \n  تطبيق رؤية</string>
     <string name="please_enter_your_user_name">الرجاء ادخال المعلومات</string>
     <string name="remember_me">تذكرني </string>
-    <string name="user_name">User Name</string>
-    <string name="submit">Submit</string>
+    <string name="user_name">اسم المستخدم</string>
+    <string name="submit">ارسال</string>
+    <string name="no_alerts_yet">لا يوجد تنبيهات بعد</string>
+    <string name="home">الشاشة الرئيسية</string>
+    <string name="scene">المنظور</string>
+    <string name="alerts">التنبيهات</string>
+    <string name="password">كلمة المرور</string>
+    <string name="account">الحساب</string>
+    <string name="change_lang">تغيير اللغة</string>
+    <string name="logout">تسجيل الخروج</string>
+
 </resources>

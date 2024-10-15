@@ -33,6 +33,15 @@ public class LocalDataStore {
         });
     }
 
+    public Single<Boolean> signout(){
+        Single<Token> accessToken = LocalDataStoreProvider.getAccessTokenDataStore().updateDataAsync(token -> Single.just(Token.getDefaultInstance()));
+        Single<Token> refreshToken =   LocalDataStoreProvider.getAccessTokenDataStore().updateDataAsync(token -> Single.just(Token.getDefaultInstance()));
+        return Single.zip(accessToken,refreshToken,(accessToken1,refreshToken1)->{
+            Log.println(Log.ASSERT, "IN Local Data Source  Access : ", String.valueOf(refreshToken1.getToken()));
+            return true;
+        });
+    }
+
 
 
 }

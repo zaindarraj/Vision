@@ -6,25 +6,25 @@
     <item
         android:icon="@drawable/baseline_home_24"
         android:id="@+id/nav_home"
-        android:title="Home"/>
+        android:title="@string/home"/>
 
     <item
         android:icon="@drawable/baseline_person_24"
         android:id="@+id/nav_account"
-        android:title="Account"/>
+        android:title="@string/account"/>
 
 
     <item
         android:icon="@drawable/baseline_add_alert_24"
         android:id="@+id/nav_alerts"
-        android:title="Alerts" />
+        android:title="@string/alerts" />
     <item
         android:icon="@drawable/baseline_switch_access_shortcut_24"
         android:id="@+id/nav_language"
-        android:title="Change Language" />
+        android:title="@string/change_lang" />
     <item
         android:icon="@drawable/baseline_logout_24"
         android:id="@+id/nav_logout"
-        android:title="Logout" />
+        android:title="@string/logout" />
 
 </menu>

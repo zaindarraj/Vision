@@ -123,7 +123,7 @@
             android:id="@+id/passwordLayout"
             android:layout_width="0dp"
             android:layout_margin="10dp"
-            android:hint="Password"
+            android:hint="@string/password"
             app:startIconDrawable="@drawable/baseline_dialpad_24"
 
             app:layout_constraintTop_toBottomOf="@id/userNameInputLayout"
@@ -141,6 +141,7 @@
 
         <CheckBox
             android:id="@+id/checkbox"
+            android:checked="true"
             app:layout_constraintTop_toBottomOf="@id/passwordLayout"
             app:layout_constraintStart_toEndOf="@id/startForumVertical"
             android:layout_width="wrap_content"

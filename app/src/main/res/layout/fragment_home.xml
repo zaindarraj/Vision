@@ -58,7 +58,7 @@
               app:layout_constraintTop_toTopOf="parent"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:text="Home"
+              android:text="@string/home"
               android:textStyle="bold"
               android:textSize="21sp"
               />

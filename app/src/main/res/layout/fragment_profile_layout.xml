@@ -72,7 +72,7 @@
             app:layout_constraintTop_toBottomOf="@id/space"
             app:layout_constraintStart_toEndOf="@id/guideline_start"
             app:layout_constraintEnd_toStartOf="@id/guideline_end"
-            android:hint="User Name"
+            android:hint="@string/user_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content">
 

@@ -53,5 +53,22 @@
         android:id="@+id/homeFragment"
         android:name="com.example.vision.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_splashScreen"
+            app:popUpTo="@id/welcomeFragment2"
+            app:restoreState="true"
+            app:popUpToSaveState="true"
+            app:popUpToInclusive="true"
+            app:launchSingleTop="true"
+            app:destination="@id/splashScreen" />
+        <action
+            app:popUpTo="@id/welcomeFragment2"
+            app:restoreState="true"
+            app:popUpToSaveState="true"
+            app:popUpToInclusive="true"
+            app:launchSingleTop="true"
+            android:id="@+id/action_homeFragment_to_signInScreen"
+            app:destination="@id/signInScreen" />
+    </fragment>
 </navigation>

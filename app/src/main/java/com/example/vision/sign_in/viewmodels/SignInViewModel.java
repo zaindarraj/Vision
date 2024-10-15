@@ -26,6 +26,9 @@ public class SignInViewModel extends ViewModel {
                 signInStateLiveData.postValue(SignInState.Signed_in);
             } else if (result == SessionState.Session_Empty) {
                 signInStateLiveData.postValue(SignInState.no_internet);
+            }else if(result == SessionState.SESSION_WRONG){
+                signInStateLiveData.postValue(SignInState.Wrong_creds);
+
             }
         }));
     }

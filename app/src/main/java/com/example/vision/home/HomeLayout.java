@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.vision.R;
+import com.example.vision.alerts.AlertsFragmanet;
 import com.example.vision.profile.ProfileLayout;
 import com.example.vision.scene.Scene;
 
@@ -22,6 +23,7 @@ public class HomeLayout extends Fragment {
 
 
     Button scene;
+    Button alert;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -75,6 +77,17 @@ public class HomeLayout extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         scene = view.findViewById(R.id.scene_button);
+        alert = view.findViewById(R.id.alert);
+        alert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = getParentFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+                transaction.replace(R.id.home_container, new AlertsFragmanet());
+                transaction.commit();
+                ((HomeFragment)getParentFragment()).label.setText(R.string.alerts);
+            }
+        });
         scene.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,6 +95,8 @@ public class HomeLayout extends Fragment {
                 FragmentTransaction transaction = manager.beginTransaction();
                 transaction.replace(R.id.home_container, new Scene());
                 transaction.commit();
+                ((HomeFragment)getParentFragment()).label.setText(R.string.scene);
+
             }
         });
 

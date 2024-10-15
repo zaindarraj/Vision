@@ -35,7 +35,7 @@ CompositeDisposable compositeDisposable = new CompositeDisposable();
                 Log.println(Log.ASSERT, "While Signing In Error was",  result.error().toString());
                 sessionStateObservable.onNext(SessionState.Session_Empty);
             }else{
-                if(result.response().body()!= null){
+                if(result.response() != null && result.response().body()!= null){
                  compositeDisposable.add(  repository.setLocals(result.response().body()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
                          writtenBool->{
                              if(writtenBool){
@@ -51,11 +51,15 @@ CompositeDisposable compositeDisposable = new CompositeDisposable();
                  )) ;
 
                 }else{
-                    sessionStateObservable.onNext(SessionState.Session_Empty);
+                    sessionStateObservable.onNext(SessionState.SESSION_WRONG);
+                    Log.println(Log.ASSERT, "While Signing In Error was","ddddddd");
+
                 }
             }
 
-        }, error->{});
+        }, error->{
+
+        });
     }
     public SessionController( ){
             repository = new Repository(new LocalRepository());
@@ -91,9 +95,14 @@ CompositeDisposable compositeDisposable = new CompositeDisposable();
         repository.dispose();
     }
 
-    void signOut(){
-        repository.dispose();
-        compositeDisposable.dispose();
-        sessionStateObservable.onNext(SessionState.Session_Empty);
+    public void signOut(){
+      compositeDisposable.add( repository.signout().subscribe(res->{
+          if(res){
+              repository.dispose();
+              compositeDisposable.dispose();
+              sessionStateObservable.onNext(SessionState.Session_Empty);
+          }
+      }));
+
     }
 }

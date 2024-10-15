@@ -34,14 +34,15 @@
 
             <Button
                 android:id="@+id/scene_button"
-                android:text="Scene"
+                android:text="@string/scene"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="20dp"/>
             <Button
-                android:text="Alerts"
+                android:id="@+id/alert"
+                android:text="@string/alerts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 

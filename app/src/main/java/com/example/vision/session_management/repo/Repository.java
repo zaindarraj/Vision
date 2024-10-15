@@ -109,4 +109,7 @@ public class Repository {
         disposables.clear();
     }
 
+    public Single<Boolean> signout(){
+       return localRepository.signout();
+    }
 }

@@ -26,4 +26,9 @@ public class LocalRepository {
     }
 
     LocalDataStore localDataStore = new LocalDataStore();
+
+
+    public Single<Boolean> signout(){
+       return localDataStore.signout();
+    }
 }

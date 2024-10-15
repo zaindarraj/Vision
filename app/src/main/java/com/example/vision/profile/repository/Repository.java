@@ -29,7 +29,7 @@ public class Repository {
     public void getProfile(){
         compositeDisposable.add( remoteRepository.getProfile().subscribe(result -> {
 
-            if(result.response().errorBody() != null){
+            if(result.response() != null&& result.response().errorBody() != null){
                 Gson gson = new Gson();
                 Errors errors = gson.fromJson(result.response().errorBody().string(), Errors.class);
 
