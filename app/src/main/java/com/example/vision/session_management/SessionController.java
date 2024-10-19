@@ -97,6 +97,7 @@ CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public void signOut(){
       compositeDisposable.add( repository.signout().subscribe(res->{
+          Log.println(Log.ASSERT,"asdasd", String.valueOf(res));
           if(res){
               repository.dispose();
               compositeDisposable.dispose();

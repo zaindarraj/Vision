@@ -63,12 +63,11 @@
             app:launchSingleTop="true"
             app:destination="@id/splashScreen" />
         <action
-            app:popUpTo="@id/welcomeFragment2"
-            app:restoreState="true"
-            app:popUpToSaveState="true"
+            android:id="@+id/action_homeFragment_to_welcomeFragment2"
+            app:destination="@id/welcomeFragment2"
+            app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true"
             app:launchSingleTop="true"
-            android:id="@+id/action_homeFragment_to_signInScreen"
-            app:destination="@id/signInScreen" />
+            />
     </fragment>
 </navigation>

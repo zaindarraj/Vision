@@ -85,8 +85,13 @@ public class HomeLayout extends Fragment {
                 FragmentTransaction transaction = manager.beginTransaction();
                 transaction.replace(R.id.home_container, new AlertsFragmanet());
                 transaction.commit();
-                ((HomeFragment)getParentFragment()).label.setText(R.string.alerts);
-            }
+                if(!(getParentFragment() instanceof  HomeFragment)){
+                    ((HomeFragment)getParentFragment().getParentFragment()).label.setText(R.string.alerts);
+
+                }else{
+                    ((HomeFragment)getParentFragment()).label.setText(R.string.alerts);
+
+                }            }
         });
         scene.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,7 +100,13 @@ public class HomeLayout extends Fragment {
                 FragmentTransaction transaction = manager.beginTransaction();
                 transaction.replace(R.id.home_container, new Scene());
                 transaction.commit();
-                ((HomeFragment)getParentFragment()).label.setText(R.string.scene);
+                if(!(getParentFragment() instanceof  HomeFragment)){
+                    ((HomeFragment)getParentFragment().getParentFragment()).label.setText(R.string.scene);
+
+                }else{
+                    ((HomeFragment)getParentFragment()).label.setText(R.string.scene);
+
+                }
 
             }
         });

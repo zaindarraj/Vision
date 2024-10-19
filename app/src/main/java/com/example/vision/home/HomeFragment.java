@@ -45,9 +45,7 @@ public class HomeFragment extends Fragment {
         @Override
         public void onChanged(Boolean aBoolean) {
             if(aBoolean){
-                homeViewModel.loggedOut.postValue(false);
-                NavHostFragment.findNavController(getThis()).navigate(R.id.action_homeFragment_to_signInScreen);
-
+                NavHostFragment.findNavController(getThis()).navigate(R.id.action_homeFragment_to_welcomeFragment2);
             }
         }
     };
@@ -79,7 +77,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         profileLayoutViewModel = new ViewModelProvider(getActivity()).get(ProfileLayoutViewModel.class);
-        homeViewModel = new ViewModelProvider(getActivity()).get(HomeViewModel.class);
+        homeViewModel = new ViewModelProvider(getThis()).get(HomeViewModel.class);
         homeViewModel.loggedOut.observe(getActivity(), loggedOut);
 
         binding = UserProfileHeaderBinding.inflate(inflater, container, false);
@@ -110,6 +108,8 @@ public class HomeFragment extends Fragment {
                 return true;
             }
         });
+
+
 
         navigationView.getMenu().findItem(R.id.nav_logout).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -185,5 +185,12 @@ public class HomeFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         homeViewModel.loggedOut.removeObserver(loggedOut);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        homeViewModel.loggedOut.removeObserver(loggedOut);
+
     }
 }

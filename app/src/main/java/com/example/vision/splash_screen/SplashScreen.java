@@ -27,6 +27,7 @@ public class SplashScreen extends Fragment {
     Observer<SessionState> sessionStateObserver =  sessionState -> {
         switch (sessionState){
             case Session_Ready:
+                Log.println(Log.ASSERT,"ffffffffff","ffffffffffff");
                 NavHostFragment.findNavController(this).navigate(R.id.action_splashScreen_to_homeFragment);
                 break;
             case Session_Empty:

@@ -1,5 +1,7 @@
 package com.example.vision.home;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -18,6 +20,8 @@ public class HomeViewModel extends ViewModel {
 
     HomeViewModel(){
      compositeDisposable.add( sessionController.getSessionStateObservable().subscribe(res->{
+         Log.println(Log.ASSERT,"asdasd", String.valueOf(res));
+
          switch (res){
              case Session_Empty:
                  loggedOut.postValue(true);
@@ -26,7 +30,10 @@ public class HomeViewModel extends ViewModel {
     }
 
     void logout(){
+
         sessionController.signOut();
+        loggedOut.postValue(true);
+
     }
 
     @Override
