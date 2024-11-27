@@ -6,7 +6,7 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitInstance {
-    public static String url = "https://vision-backend-1.onrender.com/";
+    public static String url = "http://172.20.10.5:3333/";
     private static final OkHttpClient.Builder httpClient = new OkHttpClient.Builder().addInterceptor(
             new ServiceInterceptor()
     );

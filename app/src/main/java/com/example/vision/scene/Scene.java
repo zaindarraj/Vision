@@ -29,6 +29,7 @@ import android.os.Environment;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,10 +62,14 @@ public class Scene extends Fragment {
 
 
     SceneViewModel sceneViewModel;
+    private TextToSpeech textToSpeech;
+
+
     Observer<String> alertObserver =new Observer<String>() {
         @Override
         public void onChanged(String s) {
             alert.setText(s);
+            speakText(s);
 
         }
     };
@@ -116,7 +121,16 @@ public class Scene extends Fragment {
         takePicture = view.findViewById(R.id.take_picture);
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(getActivity());
 
-
+        textToSpeech = new TextToSpeech(getActivity(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    // TTS engine is initialized successfully
+                } else {
+                    // Handle initialization error
+                }
+            }
+        });
 
         final Intent speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -158,8 +172,11 @@ public class Scene extends Fragment {
             @Override
             public void onResults(Bundle results) {
                 ArrayList<String> data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                Log.println(Log.ASSERT, "HELLLLL",data.get(0));
+
+                Log.println(Log.ASSERT, "HELLLLL",String.valueOf(Objects.equals(data.get(0), "take picture")));
                 if(data!=null && !data.isEmpty()){
-                    if(Objects.equals(data.get(0), "Take Picture")){
+                    if(Objects.equals(data.get(0), "take picture")){
                         Toast.makeText(getActivity(), "Taking Picture..", Toast.LENGTH_SHORT ).show();
 
                         extracted();
@@ -266,6 +283,10 @@ public class Scene extends Fragment {
 
     }
 
+    private void speakText(String text) {
+        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
+    }
+
     private void extracted() {
         SimpleDateFormat timestampFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
         String timestamp = timestampFormat.format(new Date());
@@ -283,7 +304,6 @@ public class Scene extends Fragment {
                         Uri savedUri = outputFileResults.getSavedUri();
                         if (savedUri != null) {
                             File imageFile = new File(savedUri.getPath()); // Get the imagefile
-                            Log.println(Log.ASSERT, "I am taking a picture ", savedUri.getPath());
                             sceneViewModel.predict(imageFile);
 
                         } else {
